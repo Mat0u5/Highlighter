@@ -4,7 +4,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +17,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import com.electronwill.nightconfig.core.Config;
 import com.google.common.collect.Maps;
 
-import fuzs.forgeconfigapiport.api.config.v2.ModConfigEvents;
+import fuzs.forgeconfigapiport.fabric.api.forge.v4.ForgeModConfigEvents;
 
 public class HighlighterConfig
 {
@@ -45,11 +46,11 @@ public class HighlighterConfig
 	public final BooleanValue showOnHotbar;
 	public final ConfigValue<IconPosition> iconPosition;
 
-	private static Map<Pair<Item, CompoundTag>, TextColor> colorCache = Maps.newHashMap();
+	private static Map<Pair<Item, DataComponentMap>, TextColor> colorCache = Maps.newHashMap();
 
 	public HighlighterConfig(ForgeConfigSpec.Builder build)
 	{
-		ModConfigEvents.reloading(Loader.MODID).register(HighlighterConfig::onReload);
+		ForgeModConfigEvents.reloading(Loader.MODID).register(HighlighterConfig::onReload);
 
 		build.comment("Client Configuration").push("client").push("options");
 
@@ -63,10 +64,10 @@ public class HighlighterConfig
 		build.pop().pop();
 	}
 
-	@SuppressWarnings({"removal"})
+	@SuppressWarnings({"deprecation", "removal"})
 	public static TextColor getColorForItem(ItemStack itemStack, TextColor defaultColor)
 	{
-		Pair<Item, CompoundTag> key = Pair.of(itemStack.getItem(), itemStack.getTag());
+		Pair<Item, DataComponentMap> key = Pair.of(itemStack.getItem(), new PatchedDataComponentMap(itemStack.getComponents()));
 		if (!colorCache.containsKey(key))
 		{
 			TextColor color = com.anthonyhilyard.iceberg.util.ItemColor.getColorForItem(itemStack, defaultColor);

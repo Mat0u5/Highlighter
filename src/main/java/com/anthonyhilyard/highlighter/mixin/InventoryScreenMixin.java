@@ -19,7 +19,7 @@ public class InventoryScreenMixin extends EffectRenderingInventoryScreen<Invento
 
 	@Override
 	@Shadow
-	protected void renderBg(GuiGraphics graphics, float p_230450_2_, int p_230450_3_, int p_230450_4_) { }
+	protected void renderBg(GuiGraphics graphics, float i, int j, int k) { }
 
 	@Override
 	public void onClose()

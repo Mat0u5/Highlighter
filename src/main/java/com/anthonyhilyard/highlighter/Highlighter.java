@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item.TooltipContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.resources.ResourceLocation;
@@ -29,12 +30,12 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 
 import net.minecraftforge.fml.config.ModConfig;
 
-import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
+import fuzs.forgeconfigapiport.fabric.api.forge.v4.ForgeConfigRegistry;
 
 
 public class Highlighter implements ClientModInitializer
 {
-	public static final ResourceLocation NEW_ITEM_MARKS = new ResourceLocation(Loader.MODID, "textures/gui/newitemmarks.png");
+	public static final ResourceLocation NEW_ITEM_MARKS = ResourceLocation.fromNamespaceAndPath(Loader.MODID, "textures/gui/newitemmarks.png");
 
 	private static Set<Integer> markedSlots = new HashSet<Integer>(36);
 
@@ -95,7 +96,7 @@ public class Highlighter implements ClientModInitializer
 		}
 	}
 
-	public static void onItemTooltip(ItemStack stack, TooltipFlag context, List<Component> lines)
+	public static void onItemTooltip(ItemStack stack, TooltipContext context, TooltipFlag flag, List<Component> lines)
 	{
 		if (HighlighterConfig.INSTANCE.clearOnHover.get())
 		{
