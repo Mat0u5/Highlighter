@@ -1,7 +1,7 @@
 package com.anthonyhilyard.highlighter.mixin;
 
 import com.anthonyhilyard.highlighter.Highlighter;
-import com.anthonyhilyard.highlighter.HighlighterConfig;
+import com.anthonyhilyard.highlighter.config.HighlighterConfig;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,7 +25,7 @@ public class GuiMixin
 		int index = player.getInventory().items.indexOf(item);
 
 		// If configured to do so, clear new item marks if we've selected the slot on the hot bar.
-		if (HighlighterConfig.INSTANCE.clearOnSelect.get() && player.getInventory().selected == index)
+		if (HighlighterConfig.getInstance().clearOnSelect.get() && player.getInventory().selected == index)
 		{
 			Highlighter.clearMark(index);
 		}

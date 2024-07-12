@@ -1,0 +1,34 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="CC BY-NC-ND 4.0"
+
+[[mods]]
+modId="highlighter"
+version="${version}"
+displayName="Highlighter"
+displayURL="https://anthonyhilyard.com/"
+updateJSONURL="https://mc-update-check.anthonyhilyard.com/521590"
+logoFile="icon.png"
+authors="Grend"
+description="Highlights newly picked-up items in your inventory."
+
+[[dependencies.highlighter]]
+	modId="forge"
+	type="required"
+	versionRange="[21,)"
+	ordering="NONE"
+	side="BOTH"
+
+[[dependencies.highlighter]]
+	modId="minecraft"
+	type="required"
+	versionRange="[1.21.0,)"
+	ordering="NONE"
+	side="BOTH"
+
+[[dependencies.highlighter]]
+	modId="iceberg"
+	type="required"
+	versionRange="[1.2.0,)"
+	ordering="NONE"
+	side="BOTH"

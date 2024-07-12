@@ -18,8 +18,8 @@
 	"environment": "client",
 
 	"entrypoints": {
-		"client": [
-			"com.anthonyhilyard.highlighter.Highlighter"
+		"main": [
+			"com.anthonyhilyard.highlighter.fabric.HighlighterFabric"
 		]
 	 },
 	"accessWidener": "highlighter.accesswidener",
@@ -33,8 +33,7 @@
 		"fabric": "*",
 		"minecraft": ">=1.21",
 		"java": ">=21",
-		"forgeconfigapiport": ">=21.0",
-		"iceberg": ">=1.1.24"
+		"iceberg": ">=1.2.0"
 	},
 	"custom": {
 		"modupdater": {

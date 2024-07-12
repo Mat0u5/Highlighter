@@ -1,8 +1,10 @@
 package com.anthonyhilyard.highlighter;
 
+import com.anthonyhilyard.highlighter.config.HighlighterConfig;
+import com.anthonyhilyard.iceberg.events.client.ItemTooltipEvent;
+import com.anthonyhilyard.iceberg.events.client.NewItemPickupEvent;
 import com.anthonyhilyard.iceberg.util.Easing;
 import com.anthonyhilyard.iceberg.util.GuiHelper;
-import com.anthonyhilyard.iceberg.events.NewItemPickupCallback;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.client.Minecraft;
@@ -22,30 +24,27 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 
-import net.minecraftforge.fml.config.ModConfig;
-
-import fuzs.forgeconfigapiport.fabric.api.forge.v4.ForgeConfigRegistry;
-
-
-public class Highlighter implements ClientModInitializer
+public class Highlighter
 {
-	public static final ResourceLocation NEW_ITEM_MARKS = ResourceLocation.fromNamespaceAndPath(Loader.MODID, "textures/gui/newitemmarks.png");
+	public static final String MODID = "highlighter";
+	public static final Logger LOGGER = LogManager.getLogger(MODID);
 
+	public static final ResourceLocation NEW_ITEM_MARKS = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/newitemmarks.png");
 	private static Set<Integer> markedSlots = new HashSet<Integer>(36);
 
-	@Override
-	public void onInitializeClient()
+	public static void init()
 	{
-		ForgeConfigRegistry.INSTANCE.register(Loader.MODID, ModConfig.Type.COMMON, HighlighterConfig.SPEC);
+		HighlighterConfig.register(HighlighterConfig.class, MODID);
 
-		NewItemPickupCallback.EVENT.register(Highlighter::newItemPickup);
-		ItemTooltipCallback.EVENT.register(Highlighter::onItemTooltip);
+		NewItemPickupEvent.EVENT.register(Highlighter::newItemPickup);
+		ItemTooltipEvent.EVENT.register(Highlighter::onItemTooltip);
 	}
 
 	public static void newItemPickup(UUID uuid, ItemStack itemStack)
@@ -90,7 +89,7 @@ public class Highlighter implements ClientModInitializer
 
 	public static void inventoryClosed()
 	{
-		if (HighlighterConfig.INSTANCE.clearOnInventoryClose.get())
+		if (HighlighterConfig.getInstance().clearOnInventoryClose.get())
 		{
 			markedSlots.clear();
 		}
@@ -98,7 +97,7 @@ public class Highlighter implements ClientModInitializer
 
 	public static void onItemTooltip(ItemStack stack, TooltipContext context, TooltipFlag flag, List<Component> lines)
 	{
-		if (HighlighterConfig.INSTANCE.clearOnHover.get())
+		if (HighlighterConfig.getInstance().clearOnHover.get())
 		{
 			// This event can be raised from any sort of tooltip, but we only care about item tooltips 
 			// when the inventory is open, so ensure that is the case.
@@ -134,7 +133,7 @@ public class Highlighter implements ClientModInitializer
 
 	public static void renderHotBarItemMark(int slotIndex, PoseStack poseStack, ItemStack item, int x, int y)
 	{
-		if (!HighlighterConfig.INSTANCE.showOnHotbar.get())
+		if (!HighlighterConfig.getInstance().showOnHotbar.get())
 		{
 			return;
 		}
@@ -164,7 +163,7 @@ public class Highlighter implements ClientModInitializer
 		// Default to white so the gold-colored icon isn't messed up.
 		TextColor color = TextColor.fromLegacyFormat(ChatFormatting.WHITE);
 
-		if (HighlighterConfig.INSTANCE.useItemNameColor.get())
+		if (HighlighterConfig.getInstance().useItemNameColor.get())
 		{
 			// Grab the item's color.  This should match the color of the item's name in the tooltip.
 			color = HighlighterConfig.getColorForItem(item, color);
@@ -178,7 +177,7 @@ public class Highlighter implements ClientModInitializer
 		RenderSystem.setShaderTexture(0, NEW_ITEM_MARKS);
 		RenderSystem.setShaderColor((color.getValue() >> 16 & 255) / 255.0f, (color.getValue() >> 8 & 255) / 255.0f, (color.getValue() & 255) / 255.0f, 1.0f);
 
-		switch (HighlighterConfig.INSTANCE.iconPosition.get())
+		switch (HighlighterConfig.getInstance().iconPosition.get())
 		{
 			default:
 			case UpperLeft:
@@ -194,7 +193,7 @@ public class Highlighter implements ClientModInitializer
 				y += 8;
 				break;
 		}
-		GuiHelper.blit(poseStack, x, y, 8, 8, HighlighterConfig.INSTANCE.useItemNameColor.get() ? 8 : 0, 0, 8, 8, 16, 16);
+		GuiHelper.blit(poseStack, x, y, 8, 8, HighlighterConfig.getInstance().useItemNameColor.get() ? 8 : 0, 0, 8, 8, 16, 16);
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		poseStack.popPose();
