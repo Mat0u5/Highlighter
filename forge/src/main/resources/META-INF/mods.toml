@@ -30,5 +30,5 @@ description="Highlights newly picked-up items in your inventory."
 	modId="iceberg"
 	mandatory=true
 	versionRange="[1.2.0,)"
-	ordering="NONE"
+	ordering="AFTER"
 	side="BOTH"
