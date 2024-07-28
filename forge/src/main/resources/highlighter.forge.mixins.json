@@ -1,11 +1,9 @@
 {
 	"required": true,
-	"package": "com.anthonyhilyard.highlighter.mixin",
+	"package": "com.anthonyhilyard.highlighter.forge.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
-		"AbstractContainerMenuMixin",
-		"InventoryScreenMixin",
-		"GuiMixin"
+		"AbstractContainerScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

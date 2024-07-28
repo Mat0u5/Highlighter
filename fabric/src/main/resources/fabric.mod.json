@@ -25,7 +25,8 @@
 	"accessWidener": "highlighter.accesswidener",
 
 	"mixins": [
-		"highlighter.mixins.json"
+		"highlighter.mixins.json",
+		"highlighter.fabric.mixins.json"
 	],
 
 	"depends": {

@@ -35,3 +35,6 @@ description="Highlights newly picked-up items in your inventory."
 
 [[mixins]]
 	config="highlighter.mixins.json"
+
+[[mixins]]
+	config="highlighter.neoforge.mixins.json"
