@@ -9,7 +9,6 @@ public final class HighlighterFabric implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
-		// Run our common setup.
 		Highlighter.init();
 	}
 }

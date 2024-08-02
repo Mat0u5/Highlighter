@@ -11,9 +11,6 @@ public final class HighlighterForge
 {
 	public HighlighterForge()
 	{
-		// Run our common setup.
-		Highlighter.init();
-
 		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> "ANY", (remote, isServer) -> true));
 	}
 }
