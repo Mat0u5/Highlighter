@@ -26,9 +26,9 @@ public class AbstractContainerScreenMixin extends Screen
 		// Only mark items that are in the player's inventory.
 		if (slot.container instanceof Inventory)
 		{
-			if (slot.hasItem() && ((Inventory)slot.container).items.contains(slot.getItem()))
+			if (slot.hasItem() && ((Inventory)slot.container).getNonEquipmentItems().contains(slot.getItem()))
 			{
-				Highlighter.renderNewItemMark(graphics.pose(), slot);
+				Highlighter.renderNewItemMark(graphics, slot);
 			}
 		}
 	}

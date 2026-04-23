@@ -6,6 +6,9 @@ import com.anthonyhilyard.iceberg.events.client.NewItemPickupEvent;
 import com.anthonyhilyard.iceberg.util.Easing;
 import com.anthonyhilyard.iceberg.util.GuiHelper;
 
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -13,8 +16,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item.TooltipContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.ChatFormatting;
@@ -36,7 +37,7 @@ public class Highlighter
 	public static final String MODID = "highlighter";
 	public static final Logger LOGGER = LogManager.getLogger(MODID);
 
-	public static final ResourceLocation NEW_ITEM_MARKS = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/newitemmarks.png");
+	public static final Identifier NEW_ITEM_MARKS = Identifier.fromNamespaceAndPath(MODID, "textures/gui/newitemmarks.png");
 	private static Set<Integer> markedSlots = new HashSet<Integer>(36);
 
 	public static void init()
@@ -114,14 +115,14 @@ public class Highlighter
 		}
 	}
 
-	public static void renderNewItemMark(PoseStack poseStack, Slot slot)
+	public static void renderNewItemMark(GuiGraphics graphics, Slot slot)
 	{
 		Minecraft mc = Minecraft.getInstance();
 		if (!mc.player.isCreative())
 		{
 			if (markedSlots.contains(slot.getContainerSlot()) && slot.hasItem())
 			{
-				render(poseStack, slot.getItem(), slot.x, slot.y);
+				render(graphics, slot.getItem(), slot.x, slot.y);
 			}
 			else
 			{
@@ -131,7 +132,7 @@ public class Highlighter
 		}
 	}
 
-	public static void renderHotBarItemMark(int slotIndex, PoseStack poseStack, ItemStack item, int x, int y)
+	public static void renderHotBarItemMark(int slotIndex, GuiGraphics graphics, ItemStack item, int x, int y)
 	{
 		if (!HighlighterConfig.getInstance().showOnHotbar.get())
 		{
@@ -143,15 +144,15 @@ public class Highlighter
 		{
 			if (markedSlots.contains(slotIndex))
 			{
-				poseStack.pushPose();
-				poseStack.translate(0, 0, -100);
-				render(poseStack, item, x, y);
-				poseStack.popPose();
+				graphics.pose().pushMatrix();
+				graphics.pose().translate(0, 0);
+				render(graphics, item, x, y);
+				graphics.pose().popMatrix();
 			}
 		}
 	}
 
-	private static void render(PoseStack poseStack, ItemStack item, int x, int y)
+	private static void render(GuiGraphics graphics, ItemStack item, int x, int y)
 	{
 		if (item.isEmpty())
 		{
@@ -160,42 +161,30 @@ public class Highlighter
 
 		float timeOffset = Math.abs(((Util.getMillis() % 2000) / 1000.0f) - 1.0f);
 
-		// Default to white so the gold-colored icon isn't messed up.
 		TextColor color = TextColor.fromLegacyFormat(ChatFormatting.WHITE);
 
 		if (HighlighterConfig.getInstance().useItemNameColor.get())
 		{
-			// Grab the item's color.  This should match the color of the item's name in the tooltip.
 			color = HighlighterConfig.getColorForItem(item, color);
 		}
 
-		RenderSystem.disableDepthTest();
+		graphics.pose().pushMatrix();
+		graphics.pose().translate(0, -Easing.Ease(0, 1, timeOffset));
 
-		poseStack.pushPose();
-		poseStack.translate(0, -Easing.Ease(0, 1, timeOffset), 410);
-
-		RenderSystem.setShaderTexture(0, NEW_ITEM_MARKS);
-		RenderSystem.setShaderColor((color.getValue() >> 16 & 255) / 255.0f, (color.getValue() >> 8 & 255) / 255.0f, (color.getValue() & 255) / 255.0f, 1.0f);
+		int argbColor = 0xFF000000 | color.getValue();
 
 		switch (HighlighterConfig.getInstance().iconPosition.get())
 		{
 			default:
-			case UpperLeft:
-				break;
-			case UpperRight:
-				x += 8;
-				break;
-			case LowerLeft:
-				y += 8;
-				break;
-			case LowerRight:
-				x += 8;
-				y += 8;
-				break;
+			case UpperLeft:  break;
+			case UpperRight: x += 8; break;
+			case LowerLeft:  y += 8; break;
+			case LowerRight: x += 8; y += 8; break;
 		}
-		GuiHelper.blit(poseStack, x, y, 8, 8, HighlighterConfig.getInstance().useItemNameColor.get() ? 8 : 0, 0, 8, 8, 16, 16);
-		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-		poseStack.popPose();
+		float texX = HighlighterConfig.getInstance().useItemNameColor.get() ? 8 : 0;
+		GuiHelper.blit(graphics, NEW_ITEM_MARKS, x, y, 8, 8, texX, 0, 8, 8, 16, 16, argbColor);
+
+		graphics.pose().popMatrix();
 	}
 }

@@ -22,14 +22,14 @@ public class GuiMixin
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;renderItemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;II)V", shift = Shift.AFTER))
 	public void renderSlot(GuiGraphics graphics, int x, int y, DeltaTracker tracker, Player player, ItemStack item, int something, CallbackInfo info)
 	{
-		int index = player.getInventory().items.indexOf(item);
+		int index = player.getInventory().getNonEquipmentItems().indexOf(item);
 
 		// If configured to do so, clear new item marks if we've selected the slot on the hot bar.
-		if (HighlighterConfig.getInstance().clearOnSelect.get() && player.getInventory().selected == index)
+		if (HighlighterConfig.getInstance().clearOnSelect.get() && player.getInventory().getSelectedSlot() == index)
 		{
 			Highlighter.clearMark(index);
 		}
 
-		Highlighter.renderHotBarItemMark(index, graphics.pose(), item, x, y);
+		Highlighter.renderHotBarItemMark(index, graphics, item, x, y);
 	}
 }
