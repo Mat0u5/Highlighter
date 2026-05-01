@@ -32,6 +32,8 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:$rootProject.fabricLoaderVersion"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabricVersion"
 
+	modRuntimeOnly files("../libs/Iceberg-1.21.11-fabric-1.4.0.jar")
+
 	common(project(path: ':common', configuration: 'namedElements')) { transitive false }
 	shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }
