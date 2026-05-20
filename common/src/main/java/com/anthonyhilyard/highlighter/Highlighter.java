@@ -161,10 +161,12 @@ public class Highlighter
 
 		float timeOffset = Math.abs(((Util.getMillis() % 2000) / 1000.0f) - 1.0f);
 
+		// Default to white so the gold-colored icon isn't messed up.
 		TextColor color = TextColor.fromLegacyFormat(ChatFormatting.WHITE);
 
 		if (HighlighterConfig.getInstance().useItemNameColor.get())
 		{
+			// Grab the item's color.  This should match the color of the item's name in the tooltip.
 			color = HighlighterConfig.getColorForItem(item, color);
 		}
 
@@ -176,10 +178,18 @@ public class Highlighter
 		switch (HighlighterConfig.getInstance().iconPosition.get())
 		{
 			default:
-			case UpperLeft:  break;
-			case UpperRight: x += 8; break;
-			case LowerLeft:  y += 8; break;
-			case LowerRight: x += 8; y += 8; break;
+			case UpperLeft:​
+				break;​
+			case UpperRight:​
+				x += 8;​
+				break;​
+			case LowerLeft:​
+				y += 8;​
+				break;​
+			case LowerRight:​
+				x += 8;​
+				y += 8;​
+				break;
 		}
 
 		float texX = HighlighterConfig.getInstance().useItemNameColor.get() ? 8 : 0;
