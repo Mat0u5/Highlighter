@@ -6,6 +6,7 @@
 	"name": "Highlighter",
 	"description": "Highlights newly picked-up items in your inventory.",
 	"authors": [ "Grend" ],
+	"contributors": [ "Mat0u5" ],
 	"contact": {
 		"homepage": "https://anthonyhilyard.com/",
 		"sources": "https://github.com/AHilyard/Highlighter",

@@ -9,13 +9,13 @@ displayName="Highlighter"
 displayURL="https://anthonyhilyard.com/"
 updateJSONURL="https://mc-update-check.anthonyhilyard.com/521590"
 logoFile="icon.png"
-authors="Grend"
+authors="Grend, Mat0u5"
 description="Highlights newly picked-up items in your inventory."
 
 [[dependencies.highlighter]]
 	modId="forge"
 	mandatory=true
-	versionRange="[53,)"
+	versionRange="[61,)"
 	ordering="NONE"
 	side="BOTH"
 
