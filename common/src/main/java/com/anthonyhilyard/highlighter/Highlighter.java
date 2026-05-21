@@ -28,10 +28,6 @@ import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-
-
 public class Highlighter
 {
 	public static final String MODID = "highlighter";
@@ -178,17 +174,17 @@ public class Highlighter
 		switch (HighlighterConfig.getInstance().iconPosition.get())
 		{
 			default:
-			case UpperLeft:​
-				break;​
-			case UpperRight:​
-				x += 8;​
-				break;​
-			case LowerLeft:​
-				y += 8;​
-				break;​
-			case LowerRight:​
-				x += 8;​
-				y += 8;​
+			case UpperLeft:
+				break;
+			case UpperRight:
+				x += 8;
+				break;
+			case LowerLeft:
+				y += 8;
+				break;
+			case LowerRight:
+				x += 8;
+				y += 8;
 				break;
 		}
 
