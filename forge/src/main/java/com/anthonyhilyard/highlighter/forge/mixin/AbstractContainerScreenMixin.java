@@ -22,14 +22,14 @@ public class AbstractContainerScreenMixin extends Screen
 
 	@Inject(method = "renderSlot", remap = false, at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/gui/GuiGraphics;renderItemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;IILjava/lang/String;)V", shift = Shift.AFTER))
-	public void renderSlot(GuiGraphics graphics, Slot slot, CallbackInfo info)
+	public void renderSlot(GuiGraphics graphics, Slot slot, int m, int n, CallbackInfo ci)
 	{
 		// Only mark items that are in the player's inventory.
 		if (slot.container instanceof Inventory)
 		{
-			if (slot.hasItem() && ((Inventory)slot.container).items.contains(slot.getItem()))
+			if (slot.hasItem() && ((Inventory)slot.container).getNonEquipmentItems().contains(slot.getItem()))
 			{
-				Highlighter.renderNewItemMark(graphics.pose(), slot);
+				Highlighter.renderNewItemMark(graphics, slot);
 			}
 		}
 	}

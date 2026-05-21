@@ -6,6 +6,7 @@
 	"name": "Highlighter",
 	"description": "Highlights newly picked-up items in your inventory.",
 	"authors": [ "Grend" ],
+	"contributors": [ "Mat0u5" ],
 	"contact": {
 		"homepage": "https://anthonyhilyard.com/",
 		"sources": "https://github.com/AHilyard/Highlighter",
@@ -31,10 +32,10 @@
 
 	"depends": {
 		"fabricloader": ">=0.16.0",
-		"fabric": "*",
-		"minecraft": ">=1.21.3",
+		"fabric-api": "*",
+		"minecraft": "=1.21.11",
 		"java": ">=21",
-		"iceberg": ">=1.2.10"
+		"iceberg": ">=1.4.0"
 	},
 	"custom": {
 		"modupdater": {
