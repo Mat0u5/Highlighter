@@ -54,7 +54,9 @@ shadowJar {
 	archiveClassifier = null
 
 	manifest {
-		attributes 'Loom-Access-Widener': 'highlighter.accesswidener'
+		attributes(
+				'MixinConfigs': 'highlighter.mixins.json,highlighter.forge.mixins.json'
+		)
 	}
 
 	destinationDirectory = file("$buildDir/../../output")

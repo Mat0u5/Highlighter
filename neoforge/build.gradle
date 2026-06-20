@@ -60,10 +60,6 @@ shadowJar {
 
 	configurations = [project.configurations.shadowBundle]
 	archiveClassifier = null
-
-	manifest {
-		attributes 'Loom-Access-Widener': 'highlighter.accesswidener'
-	}
 }
 
 tasks.named('shadowJar').configure {

@@ -6,7 +6,7 @@ import com.anthonyhilyard.iceberg.events.client.NewItemPickupEvent;
 import com.anthonyhilyard.iceberg.util.Easing;
 import com.anthonyhilyard.iceberg.util.GuiHelper;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.player.Player;
@@ -111,7 +111,7 @@ public class Highlighter
 		}
 	}
 
-	public static void renderNewItemMark(GuiGraphics graphics, Slot slot)
+	public static void renderNewItemMark(GuiGraphicsExtractor graphics, Slot slot)
 	{
 		Minecraft mc = Minecraft.getInstance();
 		if (!mc.player.isCreative())
@@ -128,7 +128,7 @@ public class Highlighter
 		}
 	}
 
-	public static void renderHotBarItemMark(int slotIndex, GuiGraphics graphics, ItemStack item, int x, int y)
+	public static void renderHotBarItemMark(int slotIndex, GuiGraphicsExtractor graphics, ItemStack item, int x, int y)
 	{
 		if (!HighlighterConfig.getInstance().showOnHotbar.get())
 		{
@@ -148,7 +148,7 @@ public class Highlighter
 		}
 	}
 
-	private static void render(GuiGraphics graphics, ItemStack item, int x, int y)
+	private static void render(GuiGraphicsExtractor graphics, ItemStack item, int x, int y)
 	{
 		if (item.isEmpty())
 		{
